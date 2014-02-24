@@ -4,6 +4,9 @@
 
 set -eo pipefail
 
+# Needed for ldconfig
+export PATH=$PATH:/sbin
+
 mkdir -p "$1/out" "$1/src"
 bin_dir=$(cd "$1/out" && pwd)
 src_dir=$(cd "$1/src" && pwd)
@@ -48,7 +51,7 @@ fi
 
 
 cd $src_dir/ngx_openresty-$openresty_ver/
-./configure --with-pcre=$src_dir/pcre-$pcre_ver/ --with-http_ssl_module
+./configure --prefix=/ --with-pcre=$src_dir/pcre-$pcre_ver/ --with-http_ssl_module
 make
 make DESTDIR=$bin_dir install
 make clean

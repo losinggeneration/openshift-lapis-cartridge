@@ -3,7 +3,7 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 
-OPENRESTY_EXEC=$OPENSHIFT_OPENRESTY_DIR/usr/versions/$OPENRESTY_VERSION/bin/nginx
+OPENRESTY_EXEC=$OPENSHIFT_OPENRESTY_DIR/usr/versions/$OPENRESTY_VERSION/bin/openresty/nginx/sbin/nginx
 OPENRESTY_CONFIG_FILE=$OPENSHIFT_OPENRESTY_DIR/conf/nginx.conf
 OPENRESTY_PID_FILE=$OPENSHIFT_OPENRESTY_DIR/run/nginx.pid
 
@@ -91,7 +91,7 @@ function update() {
 
     bin_dir="usr/versions/$version/bin"
     mkdir -p $bin_dir
-    cp -f tmp/build/out/usr/local/openresty/nginx/sbin/nginx $bin_dir
+    cp -rf tmp/build/out/openresty $bin_dir
     
     rm -rf tmp/build
 }
