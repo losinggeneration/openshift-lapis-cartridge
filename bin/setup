@@ -12,7 +12,7 @@ parse_args $@
 # Don't set -u until after the above arg parsing is complete
 set -u
 
-echo "$version" > env/NGINX_VERSION
+echo "$version" > env/OPENRESTY_VERSION
 
 
 for dir in logs run; do

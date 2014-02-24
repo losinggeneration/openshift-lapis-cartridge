@@ -13,9 +13,9 @@ pcre_ver=${PCRE_VERSION:-8.33}
 pcre_file=${PCRE_FILE:-pcre-$pcre_ver.tar.gz}
 pcre_url=${PCRE_URL:-http://sourceforge.net/projects/pcre/files/pcre/$pcre_ver/$pcre_file}
 
-nginx_ver=${NGINX_VERSION:-1.4.4}
-nginx_file=${NGINX_FILE:-nginx-$nginx_ver.tar.gz}
-nginx_url=${NGINX_URL:-http://nginx.org/download/$nginx_file}
+openresty_ver=${OPENRESTY_VERSION:-1.5.8.1}
+openresty_file=${OPNERESTY_FILE:-ngx_openresty-$openresty_ver.tar.gz}
+openresty_url=${OPENRESTY_URL:-http://openresty.org/download/$openresty_file}
 
 
 if test -d $src_dir/pcre-$pcre_ver
@@ -32,23 +32,23 @@ else
     echo " done"
 fi
 
-if test -d $src_dir/nginx-$nginx_ver
+if test -d $src_dir/ngx_openresty-$openresty_ver
 then
-    echo "-----> Using Nginx $nginx_ver"
+    echo "-----> Using OpenResty $openresty_ver"
 else
-    mkdir -p $src_dir/nginx-$nginx_ver
+    mkdir -p $src_dir/ngx_openresty-$openresty_ver
     cd $src_dir
     echo    "       First download, may take several minutes"
-    echo -n "-----> Installing Nginx $nginx_ver..."
-    curl -sO $nginx_url
-    tar zxf $nginx_file
-    rm -f $nginx_file
+    echo -n "-----> Installing OpenResty $openresty_ver..."
+    curl -sO $openresty_url
+    tar zxf $openresty_file
+    rm -f $openresty_file
     echo " done"
 fi
 
 
-cd $src_dir/nginx-$nginx_ver/
+cd $src_dir/ngx_openresty-$openresty_ver/
 ./configure --with-pcre=$src_dir/pcre-$pcre_ver/ --with-http_ssl_module
 make
-cp -f objs/nginx $bin_dir
+make DESTDIR=$bin_dir install
 make clean

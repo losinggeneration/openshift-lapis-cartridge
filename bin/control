@@ -3,43 +3,43 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 
-NGINX_EXEC=$OPENSHIFT_NGINX_DIR/usr/versions/$NGINX_VERSION/bin/nginx
-NGINX_CONFIG_FILE=$OPENSHIFT_NGINX_DIR/conf/nginx.conf
-NGINX_PID_FILE=$OPENSHIFT_NGINX_DIR/run/nginx.pid
+OPENRESTY_EXEC=$OPENSHIFT_OPENRESTY_DIR/usr/versions/$OPENRESTY_VERSION/bin/nginx
+OPENRESTY_CONFIG_FILE=$OPENSHIFT_OPENRESTY_DIR/conf/nginx.conf
+OPENRESTY_PID_FILE=$OPENSHIFT_OPENRESTY_DIR/run/nginx.pid
 
 
 function start() {
-    echo "Starting Nginx"
+    echo "Starting OpenResty"
 
-    if [ -f "$NGINX_EXEC" ]; then
+    if [ -f "$OPENRESTY_EXEC" ]; then
 
         if [ -f "$OPENSHIFT_REPO_DIR/nginx.conf.erb" ]; then
             oo-erb $OPENSHIFT_REPO_DIR/nginx.conf.erb > $OPENSHIFT_REPO_DIR/nginx.conf
         fi
 
         # nginx will always use the prefix defined at compile time unless an absolute path to the conf file is given
-        nohup "$NGINX_EXEC" -c "$NGINX_CONFIG_FILE" 2>&1
-        [ "$?" == "0" ] && wait_for_pid_file $NGINX_PID_FILE
+        nohup "$OPENRESTY_EXEC" -c "$OPENRESTY_CONFIG_FILE" 2>&1
+        [ "$?" == "0" ] && wait_for_pid_file $OPENRESTY_PID_FILE
 
     else
-        echo "WARN: Could not find the compiled application versions/$NGINX_VERSION/bin/nginx, will not start"
+        echo "WARN: Could not find the compiled application versions/$OPENRESTY_VERSION/bin/nginx, will not start"
     fi
 }
 
 
 function stop() {
-    echo "Starting Nginx"
+    echo "Starting OpenResty"
 
-    if [ -f "$NGINX_PID_FILE" ]; then
-        pid=`cat "$NGINX_PID_FILE" 2> /dev/null`
-        eval "'$NGINX_EXEC' -c '$NGINX_CONFIG_FILE' -s stop"
+    if [ -f "$OPENRESTY_PID_FILE" ]; then
+        pid=`cat "$OPENRESTY_PID_FILE" 2> /dev/null`
+        eval "'$OPENRESTY_EXEC' -c '$OPENRESTY_CONFIG_FILE' -s stop"
         wait_for_stop $pid
     fi
 }
 
 
 function restart() {
-    echo "Restarting Nginx"
+    echo "Restarting OpenResty"
     stop
     start
 }
@@ -47,43 +47,43 @@ function restart() {
 
 function status() {
     res=0
-    output=$(curl -s -m 30 http://$OPENSHIFT_NGINX_IP:$OPENSHIFT_NGINX_PORT/ &> /dev/null) || res=1
+    output=$(curl -s -m 30 http://$OPENSHIFT_OPENRESTY_IP:$OPENSHIFT_OPENRESTY_PORT/ &> /dev/null) || res=1
 
     if [ $res -eq 0 ]
     then
-        client_result "Nginx is running"
+        client_result "OpenResty is running"
         client_result "$output"
     else
-        client_result "Nginx is either stopped or inaccessible"
+        client_result "OpenResty is either stopped or inaccessible"
     fi
 }
 
 
 function reload() {
-    echo "Reloading Nginx"
+    echo "Reloading OpenResty"
 
-    if [ -f "$NGINX_PID_FILE" ]
+    if [ -f "$OPENRESTY_PID_FILE" ]
     then
-        pid=`cat "$NGINX_PID_FILE" 2> /dev/null`
-        output=$("$NGINX_EXEC" -c "$NGINX_CONFIG_FILE" -s reload)
+        pid=`cat "$OPENRESTY_PID_FILE" 2> /dev/null`
+        output=$("$OPENRESTY_EXEC" -c "$OPENRESTY_CONFIG_FILE" -s reload)
         client_result "$output"
     else
-        client_result "Cannot reload Nginx as it is not running"
+        client_result "Cannot reload OpenResty as it is not running"
     fi
 }
 
 
 function tidy() {
-    client_message "Emptying log dir: $OPENSHIFT_NGINX_DIR/logs"
+    client_message "Emptying log dir: $OPENSHIFT_OPENRESTY_DIR/logs"
     shopt -s dotglob
     rm -rf logs/*
 }
 
 
 function update() {
-    version=${NGINX_VERSION:-1.4.4}
+    version=${OPENRESTY_VERSION:-1.5.8.1}
 
-    echo "Rebuilding Nginx v$version"
+    echo "Rebuilding OpenResty v$version"
     stop
 
     mkdir -p tmp/build
@@ -91,7 +91,7 @@ function update() {
 
     bin_dir="usr/versions/$version/bin"
     mkdir -p $bin_dir
-    cp -f tmp/build/out/nginx $bin_dir
+    cp -f tmp/build/out/usr/local/openresty/nginx/sbin/nginx $bin_dir
     
     rm -rf tmp/build
 }

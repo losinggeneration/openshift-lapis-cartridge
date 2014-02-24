@@ -1,5 +1,5 @@
-error_log  <%= ENV['OPENSHIFT_NGINX_DIR'] %>logs/error.log;
-pid        <%= ENV['OPENSHIFT_NGINX_DIR'] %>run/nginx.pid;
+error_log  <%= ENV['OPENSHIFT_OPENRESTY_DIR'] %>logs/error.log;
+pid        <%= ENV['OPENSHIFT_OPENRESTY_DIR'] %>run/nginx.pid;
 
 worker_processes  2;
 
@@ -22,7 +22,7 @@ http {
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
-    access_log  <%= ENV['OPENSHIFT_NGINX_DIR'] %>logs/access.log  main;
+    access_log  <%= ENV['OPENSHIFT_OPENRESTY_DIR'] %>logs/access.log  main;
 
     sendfile  on;
     gzip      on;

@@ -1,27 +1,31 @@
-Name: nginx
-Cartridge-Short-Name: NGINX
-Display-Name: Nginx
-Version: "1.4.4"
-Versions: ["1.4.4"]
-Website: https://github.com/gsterjov/openshift-nginx-cart
-Cartridge-Version: 0.0.2
-Cartridge-Vendor: gsterjov
+Name: openresty
+Cartridge-Short-Name: OPENRESTY
+Display-Name: OpenResty
+Version: "1.5.8.1"
+Versions: ["1.5.8.1"]
+Website: https://github.com/losinggeneration/openshift-openresty-cart
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: losinggeneration
 Categories:
   - service
   - nginx
+  - openresty
   - web_framework
 Provides:
-  - nginx-1.4
+  - nginx-1.5
   - nginx
-  - nginx(version) = 1.4.4
+  - nginx(version) = 1.5.8
+  - openresty-1.5
+  - openresty
+  - openresty(version) = 1.5.8.1
 Scaling:
   Min: 1
   Max: -1
 Cart-Data:
-  - Key: OPENSHIFT_NGINX_PORT
+  - Key: OPENSHIFT_OPENRESTY_PORT
     Type: environment
     Description: "Internal port to which the web-framework binds to."
-  - Key: OPENSHIFT_NGINX_IP
+  - Key: OPENSHIFT_OPENRESTY_IP
     Type: environment
     Description: "Internal IP to which the web-framework binds to."
 Publishes:
@@ -37,7 +41,8 @@ Subscribes:
     Required: false
 Group-Overrides:
   - components:
-    - nginx-1.4
+    - nginx-1.5
+    - openresty-1.5
     - web_proxy
 Endpoints:
   - Private-IP-Name:   IP
