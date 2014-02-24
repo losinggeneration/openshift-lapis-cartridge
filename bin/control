@@ -3,7 +3,7 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 
-OPENRESTY_EXEC=$OPENSHIFT_OPENRESTY_DIR/usr/versions/$OPENRESTY_VERSION/bin/openresty/nginx/sbin/nginx
+OPENRESTY_EXEC=$OPENSHIFT_OPENRESTY_DIR/usr/versions/$OPENRESTY_VERSION/bin/nginx/sbin/nginx
 OPENRESTY_CONFIG_FILE=$OPENSHIFT_OPENRESTY_DIR/conf/nginx.conf
 OPENRESTY_PID_FILE=$OPENSHIFT_OPENRESTY_DIR/run/nginx.pid
 
@@ -17,6 +17,8 @@ function start() {
             oo-erb $OPENSHIFT_REPO_DIR/nginx.conf.erb > $OPENSHIFT_REPO_DIR/nginx.conf
         fi
 
+		# We need libluajit
+		export LD_LIBRARY_PATH=$OPENSHIFT_OPENRESTY_DIR/usr/versions/$OPENRESTY_VERSION/bin/luajit/lib
         # nginx will always use the prefix defined at compile time unless an absolute path to the conf file is given
         nohup "$OPENRESTY_EXEC" -c "$OPENRESTY_CONFIG_FILE" 2>&1
         [ "$?" == "0" ] && wait_for_pid_file $OPENRESTY_PID_FILE
@@ -28,7 +30,7 @@ function start() {
 
 
 function stop() {
-    echo "Starting OpenResty"
+    echo "Stopping OpenResty"
 
     if [ -f "$OPENRESTY_PID_FILE" ]; then
         pid=`cat "$OPENRESTY_PID_FILE" 2> /dev/null`
@@ -91,7 +93,7 @@ function update() {
 
     bin_dir="usr/versions/$version/bin"
     mkdir -p $bin_dir
-    cp -rf tmp/build/out/openresty $bin_dir
+    cp -rf tmp/build/out/. $bin_dir
     
     rm -rf tmp/build
 }
