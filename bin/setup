@@ -51,7 +51,7 @@ build_OpenResty()
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
 	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
 	make
-	make DESTDIR=$bin_dir install
+	make install
 	make clean
 }
 
@@ -60,6 +60,8 @@ build_LuaRocks()
 	echo "       Building LuaRocks"
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
 	./configure --prefix=$install_dir --with-lua=$install_dir
+	make
+	make install
 	return
 }
 
