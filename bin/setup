@@ -59,7 +59,7 @@ build_LuaRocks()
 {
 	echo "       Building LuaRocks"
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
-	./configure --prefix=$install_dir --with-lua=$install_dir
+	./configure --prefix=$install_dir --with-lua=$install_dir/luajit
 	make
 	make install
 	return
