@@ -49,7 +49,7 @@ build_OpenResty()
 {
 	echo "       Building OpenResty"
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
-	./configure --prefix=$install_dir --with-pcre=$src_dir/PCER-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
+	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
 	make
 	make DESTDIR=$bin_dir install
 	make clean
