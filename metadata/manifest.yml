@@ -1,17 +1,19 @@
-Name: openresty
-Cartridge-Short-Name: OPENRESTY
-Display-Name: OpenResty
-Version: "1.5.8.1"
-Versions: ["1.5.8.1"]
-Website: https://github.com/losinggeneration/openshift-openresty-cart
+Name: lapis
+Cartridge-Short-Name: lapis
+Display-Name: lapis
+Version: "0.10"
+Versions: ["0.10"]
+Website: https://github.com/losinggeneration/openshift-lapis-cart
 Cartridge-Version: 0.0.1
 Cartridge-Vendor: losinggeneration
 Categories:
   - service
+  - lapis
   - nginx
   - openresty
   - web_framework
 Provides:
+  - lapis
   - nginx-1.5
   - nginx
   - nginx(version) = 1.5.8
@@ -41,6 +43,7 @@ Subscribes:
     Required: false
 Group-Overrides:
   - components:
+    - lapis
     - nginx-1.5
     - openresty-1.5
     - web_proxy
@@ -56,4 +59,4 @@ Endpoints:
       - Frontend:      "/health"
         Backend:       ""
         Options:       { health: true }
-Install-Build-Required: false
+Install-Build-Required: true
