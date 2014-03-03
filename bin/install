@@ -1,2 +1,9 @@
 #!/bin/bash
-#set -e
+
+set -u
+
+echo "$version" > $OPENSHIFT_OPENRESTY_DIR/env/OPENRESTY_VERSION
+
+for dir in logs run; do
+	mkdir -p $OPENSHIFT_OPENRESTY_DIR/$dir
+done

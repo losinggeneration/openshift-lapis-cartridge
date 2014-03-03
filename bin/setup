@@ -9,12 +9,86 @@ esac
 source "lib/util"
 parse_args $@
 
-# Don't set -u until after the above arg parsing is complete
-set -u
+# Don't set -eo until after the above arg parsing is complete
+# This is the OpenResty setup
+set -eo pipefail
 
-echo "$version" > env/OPENRESTY_VERSION
+# Needed for ldconfig
+export PATH=$PATH:/sbin
 
+mkdir -p "$OPENSHIFT_OPENRESTY_DIR/out" "$OPENSHIFT_OPENRESTY_DIR/src"
+bin_dir="$OPENSHIFT_OPENRESTY_DIR/output"
+src_dir="$OPENSHIFT_OPENRESTY_DIR/src"
+version=${OPENRESTY_VERSION:-1.5.8.1}
+install_dir="$OPENSHIFT_OPENRESTY_DIR/usr/versions/$version/bin"
+buildpack=$(dirname $(dirname $0))
 
-for dir in logs run; do
-	mkdir -p $dir
-done
+pcre_ver=${PCRE_VERSION:-8.33}
+pcre_file=${PCRE_FILE:-pcre-$pcre_ver.tar.gz}
+pcre_url=${PCRE_URL:-http://sourceforge.net/projects/pcre/files/pcre/$pcre_ver/$pcre_file}
+
+openresty_ver=${OPENRESTY_VERSION:-1.5.8.1}
+openresty_file=${OPNERESTY_FILE:-ngx_openresty-$openresty_ver.tar.gz}
+openresty_url=${OPENRESTY_URL:-http://openresty.org/download/$openresty_file}
+
+luarocks_ver=${LUAROCKS_VERSION:-2.1.2}
+luarocks_file=${LUAROCKS_FILE:-luarocks-$luarocks_ver.tar.gz}
+luarocks_url=${LUAROCKS_URL:-http://luarocks.org/releases/$luarocks_file}
+
+# Luarocks installs these
+moonscript_ver=${MOONSCRIPT_VERSION:-0.2.4}
+lapis_ver=${LAPIS_VERSION:-0.0.10}
+
+build_PCRE()
+{
+	# no build step
+	return
+}
+
+build_OpenResty()
+{
+	echo "       Building OpenResty"
+	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
+	./configure --prefix=$install_dir --with-pcre=$src_dir/PCER-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
+	make
+	make DESTDIR=$bin_dir install
+	make clean
+}
+
+build_LuaRocks()
+{
+	echo "       Building LuaRocks"
+	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
+	./configure --prefix=$install_dir --with-lua=$install_dir
+	return
+}
+
+# Arguments:
+# Name
+# Version
+# url
+# filename
+get_ver()
+{
+	if test -d $src_dir/$1-$2
+	then
+		echo "-----> Using $1 $2"
+	else
+		mkdir -p $src_dir/$1-$2
+		cd $src_dir/$1-$2
+		echo "       First download, may take several minutes"
+		echo "-----> Installing $1 $2..."
+		curl -sOL $3
+		tar zxf $4
+		rm -f $4
+		build_$1
+		echo " done"
+	fi
+}
+
+get_ver "PCRE" "$pcre_ver" "$pcre_url" "$pcre_file"
+get_ver "OpenResty" "$openresty_ver" "$openresty_url" "$openresty_file"
+get_ver "LuaRocks" "$luarocks_ver" "$luarocks_url" "$luarocks_file"
+
+luarocks install moonscript $MOONSCRIPT_VERSION
+luarocks install lapis $LAPIS_VERSION
