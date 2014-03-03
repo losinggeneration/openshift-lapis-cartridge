@@ -16,11 +16,11 @@ set -eo pipefail
 # Needed for ldconfig
 export PATH=$PATH:/sbin
 
-mkdir -p "$OPENSHIFT_OPENRESTY_DIR/out" "$OPENSHIFT_OPENRESTY_DIR/src"
-bin_dir="$OPENSHIFT_OPENRESTY_DIR/output"
-src_dir="$OPENSHIFT_OPENRESTY_DIR/src"
+mkdir -p "$OPENSHIFT_LAPIS_DIR/out" "$OPENSHIFT_LAPIS_DIR/src"
+bin_dir="$OPENSHIFT_LAPIS_DIR/output"
+src_dir="$OPENSHIFT_LAPIS_DIR/src"
 version=${OPENRESTY_VERSION:-1.5.8.1}
-install_dir="$OPENSHIFT_OPENRESTY_DIR/usr/versions/$version/bin"
+install_dir="$OPENSHIFT_LAPIS_DIR/usr/versions/$version/bin"
 buildpack=$(dirname $(dirname $0))
 
 pcre_ver=${PCRE_VERSION:-8.33}

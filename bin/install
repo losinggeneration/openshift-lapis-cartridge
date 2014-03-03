@@ -2,8 +2,8 @@
 
 set -u
 
-echo "$version" > $OPENSHIFT_OPENRESTY_DIR/env/OPENRESTY_VERSION
+echo "$version" > $OPENSHIFT_LAPIS_DIR/env/OPENRESTY_VERSION
 
 for dir in logs run; do
-	mkdir -p $OPENSHIFT_OPENRESTY_DIR/$dir
+	mkdir -p $OPENSHIFT_LAPIS_DIR/$dir
 done
