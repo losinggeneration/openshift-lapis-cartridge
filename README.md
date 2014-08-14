@@ -1,18 +1,18 @@
-## Openshift OpenResty Cartridge
+## Openshift Lapis Cartridge
 
-A cartridge for openshift that enables OpenResty to be used as the web server.
+A cartridge for openshift that enables Lapis with OpenResty to be used as the web server.
 
 
 ### Installation
 
 To install this cartridge use the cartridge reflector when creating an app
 
-	rhc create-app myapp http://cartreflect-claytondev.rhcloud.com/reflect?github=losinggeneration/openshift-openresty-cartridge
+	rhc create-app myapp http://cartreflect-claytondev.rhcloud.com/reflect?github=losinggeneration/openshift-lapis-cartridge
 
 
 ### Configuration
 
-The cartridge installs two config files. One at <code>$OPENSHIFT_OPENRESTY_DIR/conf/nginx.conf</code> which gets loaded by the executable
+The cartridge installs two config files. One at <code>$OPENSHIFT_LAPIS_DIR/conf/nginx.conf</code> which gets loaded by the executable
 and sets up specific app configuration such as logs and pid files.
 
 The config then includes another nginx.conf which must exist at <code>$OPENSHIFT_REPO_DIR/nginx.conf</code>. This config should
