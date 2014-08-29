@@ -14,12 +14,12 @@ Categories:
   - web_framework
 Provides:
   - lapis
-  - nginx-1.5
+  - nginx-1.7
   - nginx
-  - nginx(version) = 1.5.8
-  - openresty-1.5
+  - nginx(version) = 1.7.2
+  - openresty-1.7
   - openresty
-  - openresty(version) = 1.5.8.1
+  - openresty(version) = 1.7.2.1
 Scaling:
   Min: 1
   Max: -1
@@ -44,8 +44,8 @@ Subscribes:
 Group-Overrides:
   - components:
     - lapis
-    - nginx-1.5
-    - openresty-1.5
+    - nginx-1.7
+    - openresty-1.7
     - web_proxy
 Endpoints:
   - Private-IP-Name:   IP

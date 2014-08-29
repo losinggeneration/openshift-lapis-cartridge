@@ -20,14 +20,14 @@ mkdir -p "$OPENSHIFT_LAPIS_DIR/out" "$OPENSHIFT_LAPIS_DIR/src"
 bin_dir="$OPENSHIFT_LAPIS_DIR/output"
 src_dir="$OPENSHIFT_LAPIS_DIR/src"
 version=${OPENRESTY_VERSION:-1.5.8.1}
-install_dir="$OPENSHIFT_LAPIS_DIR/usr/versions/$version/bin"
+install_dir="$OPENSHIFT_LAPIS_DIR/usr/versions/$version"
 buildpack=$(dirname $(dirname $0))
 
 pcre_ver=${PCRE_VERSION:-8.33}
 pcre_file=${PCRE_FILE:-pcre-$pcre_ver.tar.gz}
 pcre_url=${PCRE_URL:-http://sourceforge.net/projects/pcre/files/pcre/$pcre_ver/$pcre_file}
 
-openresty_ver=${OPENRESTY_VERSION:-1.5.8.1}
+openresty_ver=${OPENRESTY_VERSION:-1.7.2.1}
 openresty_file=${OPNERESTY_FILE:-ngx_openresty-$openresty_ver.tar.gz}
 openresty_url=${OPENRESTY_URL:-http://openresty.org/download/$openresty_file}
 
@@ -36,8 +36,8 @@ luarocks_file=${LUAROCKS_FILE:-luarocks-$luarocks_ver.tar.gz}
 luarocks_url=${LUAROCKS_URL:-http://luarocks.org/releases/$luarocks_file}
 
 # Luarocks installs these
-moonscript_ver=${MOONSCRIPT_VERSION:-0.2.4}
-lapis_ver=${LAPIS_VERSION:-0.0.10}
+moonscript_ver=${MOONSCRIPT_VERSION:-0.2.6}
+lapis_ver=${LAPIS_VERSION:-1.0.4}
 
 build_PCRE()
 {
