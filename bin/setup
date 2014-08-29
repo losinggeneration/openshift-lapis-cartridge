@@ -52,6 +52,8 @@ build_OpenResty()
 	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
 	make
 	make install
+	# Should fix issue #1 with LuaRocks not finding luajit's headers
+	ln -s $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
 	make clean
 }
 
