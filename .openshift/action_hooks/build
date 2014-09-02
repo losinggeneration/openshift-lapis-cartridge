@@ -32,6 +32,7 @@ lapis_ver=${LAPIS_VERSION:-1.0.4}
 
 export LUA_PATH="$install_dir/share/lua/5.1/?.lua;$install_dir/lualib/?.lua;;"
 export LUA_CPATH="$install_dir/lualib/?.so;;"
+export LUAROCKS_CONFIG="$install_dir/etc/luarocks/config.lua"
 
 # Needed so we don't need the full path after installing
 export PATH=$install_dir/bin:$PATH
