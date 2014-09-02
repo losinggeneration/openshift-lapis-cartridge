@@ -62,7 +62,7 @@ install_OpenResty()
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
 	make install
 	# Should fix issue #1 with LuaRocks not finding luajit's headers
-	ln -s $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
+	ln -sf $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
 }
 
 build_LuaRocks()
@@ -78,7 +78,7 @@ install_LuaRocks()
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
 	make install
 	luarocks_config $install_dir
-	ln -s $install_dir/etc/luarocks/config-5.1.lua $install_dir/etc/luarocks/config.lua
+	ln -sf $install_dir/etc/luarocks/config-5.1.lua $install_dir/etc/luarocks/config.lua
 }
 
 # Arguments:
