@@ -7,11 +7,8 @@ set -eo pipefail
 export PATH=$PATH:/sbin
 
 version=${OPENRESTY_VERSION:-1.7.2.1}
-install_dir="$OPENSHIFT_HOMEDIR/usr/$version"
-build_dir="$OPENSHIFT_HOMEDIR/build"
-src_dir="$build_dir/src"
-log_dir="$build_dir/logs"
-log_file="$log_dir/lapis_build"
+install_dir="$OPENSHIFT_DEPENDENCIES_DIR/usr/$version"
+src_dir="$OPENSHIFT_BUILD_DEPENDENCIES_DIR"
 MAKE_JOBS=$(grep processor /proc/cpuinfo  | wc -l)
 
 pcre_ver=${PCRE_VERSION:-8.33}
@@ -44,11 +41,11 @@ build_PCRE()
 
 build_OpenResty()
 {
-	echo "       Building OpenResty" | tee -a $log_file
+	echo "       Building OpenResty"
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
-	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module | tee -a $log_file
-	make -j${MAKE_JOBS:-2} | tee -a $log_file
-	make install | tee -a $log_file
+	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
+	make -j${MAKE_JOBS:-2}
+	make install
 	# Should fix issue #1 with LuaRocks not finding luajit's headers
 	ln -s $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
 	make clean
@@ -56,11 +53,11 @@ build_OpenResty()
 
 build_LuaRocks()
 {
-	echo "       Building LuaRocks" | tee -a $log_file
+	echo "       Building LuaRocks"
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
-	./configure --prefix=$install_dir --with-lua=$install_dir/luajit | tee -a $log_file
-	make | tee -a $log_file
-	make install | tee -a $log_file
+	./configure --prefix=$install_dir --with-lua=$install_dir/luajit
+	make
+	make install
 	return
 }
 
@@ -73,25 +70,25 @@ get_ver()
 {
 	if test -d $src_dir/$1-$2
 	then
-		echo "-----> Using $1 $2" | tee -a $log_file
+		echo "-----> Using $1 $2"
 	else
 		mkdir -p $src_dir/$1-$2
 		cd $src_dir/$1-$2
-		echo "       First download, may take several minutes" | tee -a $log_file
-		echo "-----> Installing $1 $2..." | tee -a $log_file
+		echo "       First download, may take several minutes"
+		echo "-----> Installing $1 $2..."
 		curl -sOL $3
 		tar zxf $4
 		rm -f $4
 		build_$1
-		echo " done" | tee -a $log_file
+		echo " done"
 	fi
 }
 
-mkdir -p $build_dir $src_dir $log_dir
+mkdir -p $src_dir
 get_ver "PCRE" "$pcre_ver" "$pcre_url" "$pcre_file"
 get_ver "OpenResty" "$openresty_ver" "$openresty_url" "$openresty_file"
 get_ver "LuaRocks" "$luarocks_ver" "$luarocks_url" "$luarocks_file"
 
-luarocks install moonscript $MOONSCRIPT_VERSION | tee -a $log_file
-luarocks install lapis $LAPIS_VERSION | tee -a $log_file
+luarocks install moonscript $MOONSCRIPT_VERSION
+luarocks install lapis $LAPIS_VERSION
 
