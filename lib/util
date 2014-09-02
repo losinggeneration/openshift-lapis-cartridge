@@ -31,3 +31,15 @@ function parse_args {
         esac
     done
 }
+
+function luarocks_config {
+	install_dir="$1"
+
+	cat > $install_dir/etc/luarocks/config-5.1.lua << EOCFG
+rocks_trees = {
+   { name = [[system]], root = [[$install_dir]] }
+}
+
+local_cache = [[$install_dir/.cache]]
+EOCFG
+}

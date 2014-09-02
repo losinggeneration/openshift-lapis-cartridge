@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+source "lib/util"
+
 # This is the OpenResty setup
 set -eo pipefail
 
@@ -58,14 +60,8 @@ build_LuaRocks()
 	./configure --prefix=$install_dir --with-lua=$install_dir/luajit
 	make
 	make install
-	cat > $install_dir/etc/luarocks/config-5.1.lua << EOCFG
-rocks_trees = {
-   { name = [[system]], root = [[$install_dir]] }
-}
-
-local_cache = $install_dir/.cache
-EOCFG
-
+	luarocks_config $install_dir
+	ln -s $install_dir/etc/luarocks/config-5.1.lua $install_dir/etc/luarocks/config.lua
 	return
 }
 
