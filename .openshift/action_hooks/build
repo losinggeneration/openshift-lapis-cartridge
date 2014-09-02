@@ -6,13 +6,12 @@ set -eo pipefail
 # Needed for ldconfig
 export PATH=$PATH:/sbin
 
-bin_dir="$OPENSHIFT_LAPIS_DIR/output"
-src_dir="$OPENSHIFT_LAPIS_DIR/src"
-log_dir="$OPENSHIFT_LAPIS_DIR/logs"
-log_file="$log_dir/lapis_build"
 version=${OPENRESTY_VERSION:-1.7.2.1}
-install_dir="$OPENSHIFT_LAPIS_DIR/usr/versions/$version"
-buildpack=$(dirname $(dirname $0))
+install_dir="$OPENSHIFT_HOMEDIR/usr/$version"
+build_dir="$OPENSHIFT_HOMEDIR/build"
+src_dir="$build_dir/src"
+log_dir="$build_dir/logs"
+log_file="$log_dir/lapis_build"
 MAKE_JOBS=$(grep processor /proc/cpuinfo  | wc -l)
 
 pcre_ver=${PCRE_VERSION:-8.33}
@@ -88,7 +87,7 @@ get_ver()
 	fi
 }
 
-mkdir -p $bin_dir $src_dir $log_dir
+mkdir -p $build_dir $src_dir $log_dir
 get_ver "PCRE" "$pcre_ver" "$pcre_url" "$pcre_file"
 get_ver "OpenResty" "$openresty_ver" "$openresty_url" "$openresty_file"
 get_ver "LuaRocks" "$luarocks_ver" "$luarocks_url" "$luarocks_file"
