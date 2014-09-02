@@ -40,6 +40,9 @@ luarocks_url=${LUAROCKS_URL:-http://luarocks.org/releases/$luarocks_file}
 moonscript_ver=${MOONSCRIPT_VERSION:-0.2.6}
 lapis_ver=${LAPIS_VERSION:-1.0.4}
 
+export LUA_PATH="$install_dir/share/lua/5.1;;"
+export LUA_CPATH="$install_dir/share/lua/5.1;;"
+
 # Needed so we don't need the full path after installing
 export PATH=$install_dir/bin:$PATH
 
