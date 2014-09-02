@@ -2,12 +2,12 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-OPENRESTY_EXEC=$OPENSHIFT_LAPIS_DIR/usr/versions/$OPENRESTY_VERSION/bin/nginx/sbin/nginx
+OPENRESTY_EXEC=$OPENSHIFT_LAPIS_DIR/usr/$OPENRESTY_VERSION/nginx/sbin/nginx
 OPENRESTY_CONFIG_FILE=$OPENSHIFT_LAPIS_DIR/conf/nginx.conf
 OPENRESTY_PID_FILE=$OPENSHIFT_LAPIS_DIR/run/nginx.pid
 
 # We need libluajit
-export LD_LIBRARY_PATH=$OPENSHIFT_LAPIS_DIR/usr/versions/$OPENRESTY_VERSION/bin/luajit/lib
+export LD_LIBRARY_PATH=$OPENSHIFT_LAPIS_DIR/usr/$OPENRESTY_VERSION/luajit/lib
 
 function start() {
     echo "Starting OpenResty"
@@ -90,7 +90,7 @@ function update() {
     mkdir -p tmp/build
     bin/compile tmp/build
 
-    bin_dir="usr/versions/$version/bin"
+    bin_dir="usr/$version/bin"
     mkdir -p $bin_dir
     cp -rf tmp/build/out/. $bin_dir
 
