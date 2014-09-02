@@ -13,3 +13,13 @@ parse_args $@
 # This is the OpenResty setup
 set -eo pipefail
 
+# Update the luarocks config for the current application
+version=${OPENRESTY_VERSION:-1.7.2.1}
+install_dir="$OPENSHIFT_DEPENDENCIES_DIR/usr/$version"
+cat > $install_dir/etc/luarocks/config-5.1.lua << EOCFG
+rocks_trees = {
+   { name = [[system]], root = [[$install_dir]] }
+}
+
+local_cache = $install_dir/.cache
+EOCFG
