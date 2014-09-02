@@ -52,7 +52,7 @@ build_OpenResty()
 {
 	echo "       Building OpenResty"
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
-	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
+	./configure --prefix=/ --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
 	make -j${MAKE_JOBS:-2}
 
 }
@@ -60,7 +60,7 @@ build_OpenResty()
 install_OpenResty()
 {
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
-	make install
+	make DESTDIR=$install_dir install
 	# LuaRocks not finding luajit's headers
 	rm -f $install_dir/luajit/include/luajit-*
 	ln -sf $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
@@ -70,14 +70,14 @@ build_LuaRocks()
 {
 	echo "       Building LuaRocks"
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
-	./configure --prefix=$install_dir --with-lua=$install_dir/luajit
+	./configure --prefix=/ --with-lua=$install_dir/luajit
 	make
 }
 
 install_LuaRocks()
 {
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
-	make install
+	make DESTDIR=$install_dir install
 	luarocks_config $install_dir
 	ln -sf $install_dir/etc/luarocks/config-5.1.lua $install_dir/etc/luarocks/config.lua
 }
