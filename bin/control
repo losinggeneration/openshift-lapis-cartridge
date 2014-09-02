@@ -23,7 +23,7 @@ function start() {
         [ "$?" == "0" ] && wait_for_pid_file $OPENRESTY_PID_FILE
 
     else
-        echo "WARN: Could not find the compiled application versions/$OPENRESTY_VERSION/bin/nginx, will not start"
+        echo "WARN: Could not find the compiled application $OPENRESTY_EXEC, will not start"
     fi
 }
 
