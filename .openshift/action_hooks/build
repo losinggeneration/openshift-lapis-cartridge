@@ -11,7 +11,7 @@ export PATH=$PATH:/sbin
 version=${OPENRESTY_VERSION:-1.7.2.1}
 build_dir=$(cd "$(dirname $0)" && pwd)
 install_dir="$build_dir/usr/$version"
-src_dir="$build_dir"
+src_dir="$OPENSHIFT_BUILD_DEPENDENCIES_DIR"
 MAKE_JOBS=$(grep processor /proc/cpuinfo  | wc -l)
 
 pcre_ver=${PCRE_VERSION:-8.33}
