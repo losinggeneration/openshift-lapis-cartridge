@@ -19,6 +19,7 @@ export PATH=$PATH:/sbin
 mkdir -p "$OPENSHIFT_LAPIS_DIR/out" "$OPENSHIFT_LAPIS_DIR/src"
 bin_dir="$OPENSHIFT_LAPIS_DIR/output"
 src_dir="$OPENSHIFT_LAPIS_DIR/src"
+log_dir="$src_dir/logs"
 version=${OPENRESTY_VERSION:-1.7.2.1}
 install_dir="$OPENSHIFT_LAPIS_DIR/usr/versions/$version"
 buildpack=$(dirname $(dirname $0))
@@ -56,9 +57,9 @@ build_OpenResty()
 {
 	echo "       Building OpenResty"
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
-	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module
-	make -j${MAKE_JOBS:-2}
-	make install
+	./configure --prefix=$install_dir --with-pcre=$src_dir/PCRE-$pcre_ver/pcre-$pcre_ver/ --with-http_ssl_module | tee $log_dir/openresty_build
+	make -j${MAKE_JOBS:-2} | tee -a $log_dir/openresty_build
+	make install | tee -a $log_dir/openresty_build
 	# Should fix issue #1 with LuaRocks not finding luajit's headers
 	ln -s $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
 	make clean
@@ -68,9 +69,9 @@ build_LuaRocks()
 {
 	echo "       Building LuaRocks"
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
-	./configure --prefix=$install_dir --with-lua=$install_dir/luajit
-	make
-	make install
+	./configure --prefix=$install_dir --with-lua=$install_dir/luajit | tee $log_dir/luarocks_build
+	make | tee -a $log_dir/luarocks_build
+	make install | tee -a $log_dir/luarocks_build
 	return
 }
 
@@ -97,9 +98,11 @@ get_ver()
 	fi
 }
 
+mkdir -p $log_dir
 get_ver "PCRE" "$pcre_ver" "$pcre_url" "$pcre_file"
 get_ver "OpenResty" "$openresty_ver" "$openresty_url" "$openresty_file"
 get_ver "LuaRocks" "$luarocks_ver" "$luarocks_url" "$luarocks_file"
 
-luarocks install moonscript $MOONSCRIPT_VERSION
-luarocks install lapis $LAPIS_VERSION
+luarocks install moonscript $MOONSCRIPT_VERSION | tee $log_dir/luarocks_install
+luarocks install lapis $LAPIS_VERSION | tee -a $log_dir/luarocks_install
+
