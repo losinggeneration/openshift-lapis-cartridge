@@ -60,9 +60,9 @@ build_OpenResty()
 install_OpenResty()
 {
 	cd $src_dir/OpenResty-$openresty_ver/ngx_openresty-$openresty_ver/
-	make DESTDIR=$install_dir install
+	[ -d $install_dir/luajit/include ] && rm -rf $install_dir/luajit/include
+	make DESTDIR=$install_dir/ install
 	# LuaRocks not finding luajit's headers
-	rm -f $install_dir/luajit/include/luajit-*
 	ln -sf $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
 }
 
@@ -77,7 +77,7 @@ build_LuaRocks()
 install_LuaRocks()
 {
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
-	make DESTDIR=$install_dir install
+	make DESTDIR=$install_dir/ install
 	luarocks_config $install_dir
 	ln -sf $install_dir/etc/luarocks/config-5.1.lua $install_dir/etc/luarocks/config.lua
 }
