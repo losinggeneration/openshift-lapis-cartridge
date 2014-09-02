@@ -14,6 +14,6 @@ parse_args $@
 set -eo pipefail
 
 # Update the luarocks config for the current application
-version=${OPENRESTY_VERSION:-1.7.2.1}
-install_dir="$OPENSHIFT_DEPENDENCIES_DIR/usr/$version"
-luarocks_config $install_dir
+#version=${OPENRESTY_VERSION:-1.7.2.1}
+#install_dir="$/usr/$version"
+#luarocks_config $install_dir
