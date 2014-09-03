@@ -1,0 +1,3 @@
+cd $(dirname $(dirname $(cd $(dirname $0) && pwd)))
+
+moonc .

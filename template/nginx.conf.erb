@@ -1,8 +1,18 @@
 server {
-    listen  <%= ENV['OPENSHIFT_OPENRESTY_IP'] %>:<%= ENV['OPENSHIFT_OPENRESTY_PORT'] %>;
-    root    <%= ENV['OPENSHIFT_REPO_DIR'] %>public;
+    listen  <%= ENV['OPENSHIFT_LAPIS_IP'] %>:<%= ENV['OPENSHIFT_LAPIS_PORT'] %>;
+    root    <%= ENV['OPENSHIFT_REPO_DIR'] %>;
+    lua_code_cache on;
 
     location / {
-        index  index.html index.htm;
+      default_type text/html;
+      content_by_lua_file "web.lua";
+    }
+
+    location /static/ {
+      alias static/;
+    }
+
+    location /favicon.ico {
+      alias static/favicon.ico;
     }
 }
