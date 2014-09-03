@@ -4,6 +4,14 @@ set -u
 
 version=${OPENRESTY_VERSION:-1.7.2.1}
 echo "$version" > $OPENSHIFT_LAPIS_DIR/env/OPENRESTY_VERSION
+LAPIS_USR_DIR=$OPENSHIFT_LAPIS_DIR/usr/${version}
+LUA_PATH="$LAPIS_USR_DIR/share/lua/5.1/?.lua;$LAPIS_USR_DIR/lualib/?.lua;;"
+LUA_CPATH="$LAPIS_USR_DIR/lualib/?.so;;"
+LUAROCKS_CONFIG="$LAPIS_USR_DIR/etc/luarocks/config.lua"
+echo "$LUA_PATH" > $OPENSHIFT_LAPIS_DIR/env/LUA_PATH
+echo "$LUA_CPATH" > $OPENSHIFT_LAPIS_DIR/env/LUA_CPATH
+echo "$LUAROCKS_CONFIG" > $OPENSHIFT_LAPIS_DIR/env/LUAROCKS_CONFIG
+echo "$OPENSHIFT_LAPIS_DIR/usr/${version}/bin" > $OPENSHIFT_LAPIS_DIR/env/PATH
 
 for dir in logs run; do
 	mkdir -p $OPENSHIFT_LAPIS_DIR/$dir
