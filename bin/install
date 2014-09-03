@@ -2,6 +2,7 @@
 
 set -u
 
+version=${OPENRESTY_VERSION:-1.7.2.1}
 echo "$version" > $OPENSHIFT_LAPIS_DIR/env/OPENRESTY_VERSION
 
 for dir in logs run; do
