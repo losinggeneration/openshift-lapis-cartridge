@@ -5,7 +5,15 @@ set -u
 version=${OPENRESTY_VERSION:-1.7.2.1}
 
 LAPIS_USR_DIR=$OPENSHIFT_LAPIS_DIR/usr/${version}
-LUA_PATH="$LAPIS_USR_DIR/share/lua/5.1/?.lua;$LAPIS_USR_DIR/lualib/?.lua;$OPENSHIFT_DEPENDENCIES_DIR/share/lua/5.1/?.lua;;"
+
+# The user's repo path for their application
+REPO_LUA_PATH="$OPENSHIFT_REPO_DIR/?.lua;$OPENSHIFT_REPO_DIR/init/?.lua"
+# OpenResty's paths
+OPENRESTY_LUA_PATH="$LAPIS_USR_DIR/share/lua/5.1/?.lua;$LAPIS_USR_DIR/lualib/?.lua"
+# LuaRocks' paths
+LUAROCKS_LUA_PATH="$OPENSHIFT_DEPENDENCIES_DIR/share/lua/5.1/?.lua;$OPENSHIFT_DEPENDENCIES_DIR/share/lua/5.1/?/init.lua"
+
+LUA_PATH="$REPO_LUA_PATH;$OPENRESTY_LUA_PATH;$LUAROCKS_LUA_PATH;;"
 LUA_CPATH="$LAPIS_USR_DIR/lualib/?.so;$OPENSHIFT_DEPENDENCIES_DIR/lib/lua/5.1/?.so;;;"
 LUAROCKS_CONFIG="$OPENSHIFT_DEPENDENCIES_DIR/luarocks-config.lua"
 
