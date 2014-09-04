@@ -1,10 +1,10 @@
 Name: lapis
 Cartridge-Short-Name: lapis
 Display-Name: lapis
-Version: "0.10"
-Versions: ["0.10"]
+Version: "1.0.4"
+Versions: ["1.0.4"]
 Website: https://github.com/losinggeneration/openshift-lapis-cart
-Cartridge-Version: 0.0.1
+Cartridge-Version: 0.1.0
 Cartridge-Vendor: losinggeneration
 Categories:
   - service
