@@ -113,6 +113,3 @@ get_ver "PCRE" "$pcre_ver" "$pcre_url" "$pcre_file"
 get_ver "OpenResty" "$openresty_ver" "$openresty_url" "$openresty_file"
 get_ver "LuaRocks" "$luarocks_ver" "$luarocks_url" "$luarocks_file"
 
-luarocks install moonscript $MOONSCRIPT_VERSION
-luarocks install lapis $LAPIS_VERSION
-
