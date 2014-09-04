@@ -13,5 +13,3 @@ parse_args $@
 # This is the OpenResty setup
 set -eo pipefail
 
-# Update the luarocks config for the current application
-luarocks_config "$OPENSHIFT_DEPENDENCIES_DIR/luarocks-config.lua" "$OPENSHIFT_DEPENDENCIES_DIR"

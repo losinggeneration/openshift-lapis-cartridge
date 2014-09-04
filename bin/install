@@ -22,6 +22,9 @@ echo "$OPENSHIFT_DEPENDENCIES_DIR/bin/moonc" > $OPENSHIFT_LAPIS_DIR/env/MOONC
 echo "$OPENSHIFT_DEPENDENCIES_DIR/bin/moon" > $OPENSHIFT_LAPIS_DIR/env/MOON
 echo "$OPENSHIFT_DEPENDENCIES_DIR/bin/lapis" > $OPENSHIFT_LAPIS_DIR/env/LAPIS
 
+# Update the luarocks config for the current application
+luarocks_config "$OPENSHIFT_DEPENDENCIES_DIR/luarocks-config.lua" "$OPENSHIFT_DEPENDENCIES_DIR"
+
 $LAPIS_USR_DIR/bin/luarocks install moonscript $MOONSCRIPT_VERSION
 $LAPIS_USR_DIR/bin/luarocks install lapis $LAPIS_VERSION
 

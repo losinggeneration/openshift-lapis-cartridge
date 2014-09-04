@@ -42,5 +42,6 @@ rocks_trees = {
 }
 
 local_cache = [[$usr_dir/.cache]]
+wrap_bin_scripts = false
 EOCFG
 }
