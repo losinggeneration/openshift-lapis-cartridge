@@ -33,13 +33,14 @@ function parse_args {
 }
 
 function luarocks_config {
-	install_dir="$1"
+	local cfg="$1"
+	local usr_dir="$2"
 
-	cat > $install_dir/etc/luarocks/config-5.1.lua << EOCFG
+	cat > $cfg << EOCFG
 rocks_trees = {
-   { name = [[system]], root = [[$install_dir]] }
+   { name = [[system]], root = [[$usr_dir]] }
 }
 
-local_cache = [[$install_dir/.cache]]
+local_cache = [[$usr_dir/.cache]]
 EOCFG
 }

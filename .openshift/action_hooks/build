@@ -71,7 +71,7 @@ install_LuaRocks()
 {
 	cd $src_dir/LuaRocks-$luarocks_ver/luarocks-$luarocks_ver/
 	make DESTDIR=$install_dir/ install
-	luarocks_config $install_dir
+	#luarocks_config $install_dir
 	ln -sf $install_dir/etc/luarocks/config-5.1.lua $install_dir/etc/luarocks/config.lua
 }
 
