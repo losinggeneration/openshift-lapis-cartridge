@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -u
+source "lib/util"
+
+version=${OPENRESTY_VERSION:-1.7.2.1}
+
+LAPIS_USR_DIR=$OPENSHIFT_LAPIS_DIR/usr/${version}
+
+# Versions for Luarocks to install
+MOONSCRIPT_VERSION=${MOONSCRIPT_VERSION:-0.2.6}
+LAPIS_VERSION=${LAPIS_VERSION:-1.0.4}
+
+# Update the luarocks config for the current application
+luarocks_config "$OPENSHIFT_DEPENDENCIES_DIR/luarocks-config.lua" "$OPENSHIFT_DEPENDENCIES_DIR"
+
+$LAPIS_USR_DIR/bin/luarocks install moonscript $MOONSCRIPT_VERSION
+$LAPIS_USR_DIR/bin/luarocks install lapis $LAPIS_VERSION
+
