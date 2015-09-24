@@ -57,6 +57,8 @@ install_OpenResty()
 	make DESTDIR=$install_dir/ install
 	# LuaRocks not finding luajit's headers
 	ln -sf $install_dir/luajit/include/luajit-*/* $install_dir/luajit/include/
+	# LuaRocks needs to find luajit's executable as lua
+	ln -sf $install_dir/luajit/bin/luajit* $install_dir/luajit/bin/lua
 }
 
 build_LuaRocks()
