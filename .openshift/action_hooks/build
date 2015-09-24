@@ -5,7 +5,7 @@ source "lib/util"
 # This is the OpenResty setup
 set -eo pipefail
 
-version=${OPENRESTY_VERSION:-1.7.2.1}
+version=${OPENRESTY_VERSION:-1.9.3.1}
 build_dir=$(dirname $(dirname $(cd $(dirname $0) && pwd)))
 install_dir="$build_dir/usr/$version"
 src_dir="$OPENSHIFT_BUILD_DEPENDENCIES_DIR"
@@ -15,11 +15,11 @@ pcre_ver=${PCRE_VERSION:-8.33}
 pcre_file=${PCRE_FILE:-pcre-$pcre_ver.tar.gz}
 pcre_url=${PCRE_URL:-http://sourceforge.net/projects/pcre/files/pcre/$pcre_ver/$pcre_file}
 
-openresty_ver=${OPENRESTY_VERSION:-1.7.2.1}
+openresty_ver=${OPENRESTY_VERSION:-1.9.3.1}
 openresty_file=${OPNERESTY_FILE:-ngx_openresty-$openresty_ver.tar.gz}
 openresty_url=${OPENRESTY_URL:-http://openresty.org/download/$openresty_file}
 
-luarocks_ver=${LUAROCKS_VERSION:-2.1.2}
+luarocks_ver=${LUAROCKS_VERSION:-2.2.2}
 luarocks_file=${LUAROCKS_FILE:-luarocks-$luarocks_ver.tar.gz}
 luarocks_url=${LUAROCKS_URL:-http://luarocks.org/releases/$luarocks_file}
 

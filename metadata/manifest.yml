@@ -44,8 +44,8 @@ Subscribes:
 Group-Overrides:
   - components:
     - lapis
-    - nginx-1.7
-    - openresty-1.7
+    - nginx-1.9
+    - openresty-1.9
     - web_proxy
 Endpoints:
   - Private-IP-Name:   IP
