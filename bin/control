@@ -82,7 +82,7 @@ function tidy() {
 
 
 function update() {
-    version=${OPENRESTY_VERSION:-1.5.8.1}
+    version=${OPENRESTY_VERSION:-1.9.3.1}
 
     echo "Rebuilding OpenResty v$version"
     stop

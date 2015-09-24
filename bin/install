@@ -2,7 +2,7 @@
 
 set -u
 
-version=${OPENRESTY_VERSION:-1.7.2.1}
+version=${OPENRESTY_VERSION:-1.9.3.1}
 
 LAPIS_USR_DIR=$OPENSHIFT_LAPIS_DIR/usr/${version}
 
